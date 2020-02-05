@@ -1,0 +1,81 @@
+doctype html
+html
+  head
+    style(type="text/css"): :stylus
+      html,body
+        width: 100%
+        height: 100%
+        margin: 0
+        padding: 0
+    link(rel="stylesheet",type="text/css",href="/css/index.css")
+  body
+    .
+    .foot: .inner
+
+      .groups
+        each j in [1,2,3,4,5]
+          .group
+            .label 主要貢獻者
+            .roles
+              each i in [1,2,3,4,5]
+                .role
+                  .avatar
+                  .name Kirby Wu
+
+        .group.lg
+          .label 協力社群
+          .roles
+            each i in[1,2,3,4,5]
+              .role
+                .avatar
+                .name 台灣零時政府
+      div(style="margin:2em 0;text-align:center"): img(src="https://g0v.tw/imgs/g0v-horizontal-transparent-darkbackground-m.png")
+    //-.foot
+      .title
+      .desc
+      .label 主要貢獻者
+      div(style="display:flex;justify-content:center")
+        .roles
+
+      br
+      h3 協力社群
+      .roles
+      br
+      div(style="width:100%;text-align:center") #[a(href="https://github.com/g0v/contribar") Contribar] / 貢獻者吧 by g0v.tw
+
+    //-script: :lsc
+      
+      root = document.querySelector('.foot')
+      title = root.querySelector('.title')
+      desc = root.querySelector('.desc')
+      roles = root.querySelectorAll('.roles')
+      data = do
+        title: "台灣口罩地圖"
+        description: "台灣口罩地圖由以下貢獻者協力完成"
+      users = [
+        {name: "Kirby", avatar: "https://images.nintendolife.com/e96afc6b46ef7/kirby.original.jpg"}
+        {name: "Bess Lee", avatar: "https://live.staticflickr.com/1867/43645923435_568c52b7df_b.jpg"}
+      ]
+      communities = [
+        {name: "台灣零時政府", avatar: "https://grants.g0v.tw/images/power/poweredby-square.png"}
+        {name: "好想工作室", avatar: "https://goodideas-studio.com/files/uploads/favicon.png"}
+      ]
+      insert = (list, des) ->
+        list.map (d) -> 
+          r = document.createElement("a")
+          r.classList.add('role')
+          a = document.createElement("div")
+          a.classList.add('avatar')
+          n = document.createElement("div")
+          n.classList.add('name')
+          a.style.backgroundImage = "url(#{d.avatar})"
+          n.innerText = d.name
+          r.appendChild a
+          r.appendChild n
+          des.appendChild r
+          r.setAttribute \href, (d.link or '#')
+
+      insert users, roles.0
+      insert communities, roles.1
+      title.innerText = data.title
+      desc.innerText = data.description
